@@ -68,9 +68,8 @@ public class FluentValidatorTest {
     }
 
 
-    //TODO: Better naming
     @Test
-    void multipleAndThenValidators() {
+    void multipleFollowingValidators() {
         ValidatorResult validatorResult = FluentValidator //
                 .beginWith(withValidator(notEmptyValidator)
                         .andThen(withValidator(containsAbcValidator))
