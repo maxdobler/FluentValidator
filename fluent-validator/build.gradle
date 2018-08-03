@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+}
+
+group 'de.maxdobler'
+version '0.1-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.2.0'
+}
