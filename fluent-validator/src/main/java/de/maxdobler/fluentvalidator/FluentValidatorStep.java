@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class FluentValidatorStep<T> {
-    private final Validator<T> validator;
-    private List<FluentValidatorStep<T>> nextValidator = new ArrayList<>();
-    private Optional<FluentValidatorStep<T>> successValidator = Optional.empty();
+public class FluentValidatorStep<T, E> {
+    private final Validator<T, E> validator;
+    private List<FluentValidatorStep<T, E>> nextValidator = new ArrayList<>();
+    private Optional<FluentValidatorStep<T, E>> successValidator = Optional.empty();
 
-    private FluentValidatorStep(Validator<T> validator) {
+    private FluentValidatorStep(Validator<T, E> validator) {
         this.validator = validator;
     }
 
-    public static <T> FluentValidatorStep<T> withValidator(Validator<T> validator) {
+    public static <T, E> FluentValidatorStep<T, E> withValidator(Validator<T, E> validator) {
         return new FluentValidatorStep<>(validator);
     }
 
-    public ValidatorResult validate(T value) {
-        ValidatorResult validatorResult = validator.validate(value);
+    public ValidatorResult<E> validate(T value) {
+        ValidatorResult<E> validatorResult = validator.validate(value);
 
         if (validatorResult.isValid()) {
             successValidator.map(step -> step.validate(value))
@@ -32,12 +32,12 @@ public class FluentValidatorStep<T> {
         return validatorResult;
     }
 
-    public FluentValidatorStep<T> andThen(FluentValidatorStep<T> nextValidator) {
+    public FluentValidatorStep<T, E> andThen(FluentValidatorStep<T, E> nextValidator) {
         this.nextValidator.add(nextValidator);
         return this;
     }
 
-    public FluentValidatorStep<T> ifSuccessfulThen(FluentValidatorStep<T> validator) {
+    public FluentValidatorStep<T, E> ifSuccessfulThen(FluentValidatorStep<T, E> validator) {
         this.successValidator = Optional.ofNullable(validator);
         return this;
     }

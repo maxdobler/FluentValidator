@@ -3,35 +3,35 @@ package de.maxdobler.fluentvalidator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ValidatorResult {
-    private List<String> errors;
+public class ValidatorResult<T> {
+    private List<T> errors;
 
-    public ValidatorResult(String error) {
+    private ValidatorResult(T error) {
         this();
         this.errors.add(error);
     }
 
-    public ValidatorResult() {
+    private ValidatorResult() {
         this.errors = new ArrayList<>();
     }
 
-    public static ValidatorResult valid() {
-        return new ValidatorResult();
+    public static <T> ValidatorResult<T> valid() {
+        return new ValidatorResult<>();
     }
 
-    public static ValidatorResult error(String error) {
-        return new ValidatorResult(error);
+    public static <T> ValidatorResult<T> error(T error) {
+        return new ValidatorResult<>(error);
     }
 
     public boolean isValid() {
         return errors.isEmpty();
     }
 
-    public List<String> getErrors() {
+    public List<T> getErrors() {
         return errors;
     }
 
-    public void concat(ValidatorResult validatorResult) {
+    public void concat(ValidatorResult<T> validatorResult) {
         this.errors.addAll(validatorResult.errors);
     }
 }

@@ -18,13 +18,13 @@ public class FluentValidatorTest {
     private static final String STRING_DOES_NOT_CONTAIN_ABC = "String does not contain 'abc'.";
     private static final String STRING_DOES_NOT_CONTAIN_XYZ = "String does not contain 'xyz'.";
 
-    private Validator<String> notEmptyValidator = string -> string == null || string.isEmpty()
+    private Validator<String, String> notEmptyValidator = string -> string == null || string.isEmpty()
             ? ValidatorResult.error(STRING_IS_EMPTY)
             : ValidatorResult.valid();
-    private Validator<String> containsAbcValidator = string -> !string.contains("abc")
+    private Validator<String, String> containsAbcValidator = string -> !string.contains("abc")
             ? ValidatorResult.error(STRING_DOES_NOT_CONTAIN_ABC)
             : ValidatorResult.valid();
-    private Validator<String> containsXyzValidator = string -> !string.contains("xyz")
+    private Validator<String, String> containsXyzValidator = string -> !string.contains("xyz")
             ? ValidatorResult.error(STRING_DOES_NOT_CONTAIN_XYZ)
             : ValidatorResult.valid();
 

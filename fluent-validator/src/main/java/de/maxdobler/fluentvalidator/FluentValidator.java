@@ -1,14 +1,14 @@
 package de.maxdobler.fluentvalidator;
 
-public class FluentValidator<T> {
-    private final FluentValidatorStep<T> firstStep;
+public class FluentValidator<T, E> {
+    private final FluentValidatorStep<T, E> firstStep;
 
-    private FluentValidator(FluentValidatorStep<T> firstValidationStep) {
+    private FluentValidator(FluentValidatorStep<T, E> firstValidationStep) {
         this.firstStep = firstValidationStep;
     }
 
-    public static <T> FluentValidator<T> beginWith(FluentValidatorStep<T> firstValidationStep) {
-        return new FluentValidator<T>(firstValidationStep);
+    public static <T, E> FluentValidator<T, E> beginWith(FluentValidatorStep<T, E> firstValidationStep) {
+        return new FluentValidator<>(firstValidationStep);
     }
 
     public ValidatorResult runValidation(T value) {
