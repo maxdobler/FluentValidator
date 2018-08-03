@@ -38,6 +38,9 @@ public class FluentValidatorStep<T, E> {
     }
 
     public FluentValidatorStep<T, E> ifSuccessfulThen(FluentValidatorStep<T, E> validator) {
+        if (successValidator.isPresent()) {
+            throw new IllegalArgumentException("Only one success validator is allowed.");
+        }
         this.successValidator = Optional.ofNullable(validator);
         return this;
     }

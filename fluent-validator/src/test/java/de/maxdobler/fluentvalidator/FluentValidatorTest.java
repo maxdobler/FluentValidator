@@ -1,5 +1,6 @@
 package de.maxdobler.fluentvalidator;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -99,6 +100,19 @@ public class FluentValidatorTest {
                 .runValidation("a");
 
         assertErrors(validatorResult, asList(STRING_DOES_NOT_CONTAIN_ABC, STRING_DOES_NOT_CONTAIN_XYZ));
+    }
+
+    @Test
+    void onlyOneSuccessfulValidator() {
+        Assertions.assertThrows(IllegalArgumentException.class, this::configureFluentValidatorWithTwoSuccessfulValidators);
+
+    }
+
+    private FluentValidator<String, String> configureFluentValidatorWithTwoSuccessfulValidators() {
+        return FluentValidator //
+                .beginWith(withValidator(notEmptyValidator)
+                        .ifSuccessfulThen(withValidator(containsAbcValidator))
+                        .ifSuccessfulThen(withValidator(containsXyzValidator)));
     }
 
 
